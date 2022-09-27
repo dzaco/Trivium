@@ -1,0 +1,251 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  Backgrounds  -->
+    <Color x:Key="BackgroundColor">#FFDDDDDD</Color>
+    <Color x:Key="TitleBarBackgroundColor">#FF80DFFF</Color>
+    <Color x:Key="ContentAreaBackgroundColorLight">#FFFFFFFF</Color>
+    <Color x:Key="ContentAreaBackgroundColorMediumLight">#FFEEEEEE</Color>
+    <Color x:Key="ContentAreaBackgroundColorMedium">#FFE2E2E2</Color>
+    <Color x:Key="ContentAreaBackgroundColorMediumDark">#FFCCCCCC</Color>
+    <Color x:Key="ContentAreaBackgroundColorDark">#FFBBBBBB</Color>
+    <Color x:Key="ContentSeparatorColor">#FFC5C5C5</Color>
+    <Color x:Key="TextBoxBackGroundColor">#FFFFFFFF</Color>
+    <Color x:Key="TextBoxFocusedBackGroundColor">#FFDDEEFF</Color>
+    <Color x:Key="BackgroundErrorColor">#50FF8080</Color>
+    <Color x:Key="BackgroundOKColor">#5080FF80</Color>
+
+    <!--  TextBox -->
+    <Style
+        x:Key="StandardTextBox"
+        TargetType="{x:Type TextBox}">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                    <Border
+                        x:Name="TextboxBorder"
+                        Padding="2"
+                        Background="White"
+                        BorderBrush="DarkGray"
+                        BorderThickness="1"
+                        CornerRadius="2">
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="0" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetName="TextboxBorder"
+                                            Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)"
+                                            To="DarkBlue"
+                                            Duration="0:0:0.200" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetName="TextboxBorder"
+                                            Storyboard.TargetProperty="BorderBrush.(SolidColorBrush.Color)"
+                                            To="DarkGray"
+                                            Duration="0:0:0.200" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="true">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetName="TextboxBorder"
+                                            Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
+                                            To="{StaticResource TextBoxFocusedBackGroundColor}"
+                                            Duration="0:0:0.200" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation
+                                            Storyboard.TargetName="TextboxBorder"
+                                            Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
+                                            To="{StaticResource TextBoxBackGroundColor}"
+                                            Duration="0:0:0.200" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin" Value="5,0,5,0" />
+    </Style>
+
+    <!--  Buttons  -->
+    <Color x:Key="ButtonBackgroundColor">#FFF2F2F2</Color>
+    <Color x:Key="ButtonBackgroundColorHover">#FF0E9BD8</Color>
+    <Color x:Key="ButtonBackgroundColorPressed">#FF0D7BC8</Color>
+    <Color x:Key="ButtonBackgroundColorDisabled">#FFAAAAAA</Color>
+    <Color x:Key="ButtonBorderColor">#FFAAAAAA</Color>
+    <Color x:Key="ButtonBorderColorHover">#FFF2F2F2</Color>
+    <Color x:Key="ButtonBorderColorShadow">#55000000</Color>
+    <Color x:Key="ButtonFontColor">#FF222222</Color>
+
+    <Style x:Key="StandardButton" TargetType="{x:Type Button}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{StaticResource ButtonBackgroundColor}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="OutsideBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderThickness="2"
+                        CornerRadius="5">
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="BorderBrush">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="{StaticResource ButtonBorderColor}" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+                            <Border
+                                x:Name="InsideBorder"
+                                Margin="-2"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                CornerRadius="{Binding ElementName=OutsideBorder, Path=CornerRadius}">
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="BorderBrush">
+                                            <Setter.Value>
+                                                <SolidColorBrush Color="{StaticResource ButtonBorderColorShadow}" />
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Border.Style>
+                                <Border.Effect>
+                                    <DropShadowEffect
+                                        BlurRadius="5"
+                                        ShadowDepth="3"
+                                        Color="{StaticResource ButtonBorderColorShadow}" />
+                                </Border.Effect>
+                            </Border>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation
+                                            FillBehavior="HoldEnd"
+                                            Storyboard.TargetName="OutsideBorder"
+                                            Storyboard.TargetProperty="BorderThickness"
+                                            To="2"
+                                            Duration="0:0:0.200" />
+                                        <ColorAnimation
+                                            FillBehavior="HoldEnd"
+                                            Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)"
+                                            To="{StaticResource ButtonBackgroundColorHover}"
+                                            Duration="0:0:0.200" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation
+                                            Storyboard.TargetName="OutsideBorder"
+                                            Storyboard.TargetProperty="BorderThickness"
+                                            To="1"
+                                            Duration="0:0:0.200" />
+                                        <ColorAnimation
+                                            Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)"
+                                            To="{StaticResource ButtonBackgroundColor}"
+                                            Duration="0:0:0.200" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard x:Name="HighlightPressed">
+                                    <Storyboard>
+                                        <ThicknessAnimation
+                                            FillBehavior="HoldEnd"
+                                            Storyboard.TargetName="InsideBorder"
+                                            Storyboard.TargetProperty="BorderThickness"
+                                            To="0 1 1 0"
+                                            Duration="0:0:0.200" />
+                                        <ColorAnimation
+                                            FillBehavior="HoldEnd"
+                                            Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)"
+                                            To="{StaticResource ButtonBackgroundColorPressed}"
+                                            Duration="0:0:0.200" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard x:Name="HighlightPressedExit">
+                                    <Storyboard>
+                                        <ThicknessAnimation
+                                            FillBehavior="Stop"
+                                            Storyboard.TargetName="InsideBorder"
+                                            Storyboard.TargetProperty="BorderThickness"
+                                            To="0"
+                                            Duration="0:0:0.200" />
+                                        <ColorAnimation
+                                            FillBehavior="Stop"
+                                            Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)"
+                                            To="{StaticResource ButtonBackgroundColorHover}"
+                                            Duration="0:0:0.200" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="SettingButton"
+        BasedOn="{StaticResource StandardButton}"
+        TargetType="Button">
+        <Setter Property="Width" Value="80" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Margin" Value="5,10,10,5" />
+    </Style>
+
+    <!--  ComboBox  -->
+    <Style x:Key="StandardComboBox" TargetType="{x:Type ComboBox}">
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <DockPanel LastChildFill="True">
+                        <Border>
+                            <AdornedElementPlaceholder Name="controlWithError" />
+                        </Border>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Margin" Value="5,0,5,0" />
+    </Style>
+</ResourceDictionary>
