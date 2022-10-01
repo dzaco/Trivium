@@ -8,14 +8,21 @@ namespace Trivium.Models
 {
     public class CryptoKey : IEquatable<CryptoKey>
     {
-        public string Value { get; set; } = string.Empty;
-        public int Length => Value.Length;
+        public string Value { get; set; }
+        public int Length { get; set; }
+
+        public CryptoKey()
+        {
+            Value = String.Empty;
+            Length = (int)BinaryLength.bit64;
+        }
 
         public bool Equals(CryptoKey? other)
         {
             if (other is null)
                 return false;
-            return this.Value.Equals(other);
+            return this.Value.Equals(other.Value) &&
+                this.Length.Equals(other.Length);
         }
 
         public override bool Equals(object? obj)
@@ -38,7 +45,7 @@ namespace Trivium.Models
 
         public override int GetHashCode()
         {
-            return Value.GetHashCode();
+            return HashCode.Combine(this.Value, this.Length);
         }
 
         public override string ToString()

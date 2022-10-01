@@ -12,6 +12,21 @@ namespace Trivium.ViewModels
         private CryptoKey _key;
         private string _text;
 
+        public Dictionary<BinaryLength, string> BinaryLengthLabels { get; set; }
+
+        public BinaryLength KeyLength
+        {
+            get
+            {
+                return (BinaryLength)_key.Length;
+            }
+            set
+            {
+                _key.Length = (int)value;
+                OnPropertyChanged("KeyLength");
+            }
+        }
+
         public string KeyVaue
         {
             get { return _key.Value; }
@@ -39,6 +54,11 @@ namespace Trivium.ViewModels
         {
             _key = new CryptoKey();
             _text = string.Empty;
+            BinaryLengthLabels = new()
+            {
+                { BinaryLength.bit64, "64 bits"},
+                { BinaryLength.bit128, "128 bits"},
+            };
         }
     }
 }

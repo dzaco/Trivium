@@ -32,9 +32,11 @@
                 </Border.BorderBrush>
                 <StackPanel Margin="5,0,0,0">
                     <Label Content="Length" />
-                    <TextBox x:Name="KeyLengthBox"
-                             IsEnabled="False"
-                             Style="{StaticResource StandardTextBox}" />
+                    <ComboBox x:Name="KeyLengthBox"
+                              ItemsSource="{Binding BinaryLengthLabels, Mode=OneWay}"
+                              DisplayMemberPath="Value"
+                              SelectedValuePath="Key"
+                              SelectedValue="{Binding KeyLength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                     <Label Content="Value" />
                     <TextBox Name="KeyValueBox"
