@@ -25,13 +25,7 @@ namespace Trivium.Views
         public EncryptionView()
         {
             this.DataContext = this.EncryptionViewModel;
-            this.EncryptionViewModel.PropertyChanged += Update;
             InitializeComponent();
-        }
-
-        private void Update(object? sender, PropertyChangedEventArgs e)
-        {
-            this.KeyLengthBox.Text = this.EncryptionViewModel.KeyVaue.Length.ToString();
         }
 
         public EncryptionViewModel EncryptionViewModel
