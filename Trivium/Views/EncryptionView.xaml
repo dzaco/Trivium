@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Trivium.Views"
+             xmlns:helpers="clr-namespace:Trivium.Views.Helpers"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -14,6 +15,9 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0">
+        <Grid.Resources>
+            <helpers:HexConverter x:Key="HexConverter"></helpers:HexConverter>
+        </Grid.Resources>
         <Grid.Background>
             <SolidColorBrush Color="White" />
         </Grid.Background>
@@ -41,7 +45,7 @@
 
                     <Label Content="Value" />
                     <TextBox Name="KeyValueBox"
-                        Text="{Binding KeyVaue, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding KeyVaue, Mode=TwoWay, Converter={StaticResource HexConverter}, UpdateSourceTrigger=PropertyChanged}"
                             Style="{StaticResource StandardTextBox}" />
                     <!--helpers:InputValidationHelper.OnlyNumeric="Int"-->
                 </StackPanel>
