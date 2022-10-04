@@ -71,6 +71,10 @@
                     </TextBox>
                 </StackPanel>
             </Border>
+
+            <Button Content="Encrypt" Click="Encrypt_Click"
+                    Style="{StaticResource SettingButton}" />
+            <TextBlock x:Name="EncryptedTextBlock" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -11,22 +11,25 @@ namespace Trivium.Models
     public class Encryptor
     {
         private readonly int STATE_SIZE = 36;
+        private readonly int bytesLength;
         private Random random;
         private int[] key;
         private int[] iv;
         private int[] state;
 
-        public Encryptor(byte[] key)
+        public Encryptor(byte[] bytes, int bytesLength)
         {
             this.random = new Random();
             this.state = new int[STATE_SIZE];
-            this.key = key.Select(b => (int)b).ToArray();
-            this.iv = new int[10];
-            Init();
+            this.key = new int[bytesLength];
+            this.iv = new int[bytesLength];
+            Init(bytes);
+            this.bytesLength = bytesLength;
         }
 
-        private void Init()
+        private void Init(byte[] bytes)
         {
+            FillKeyWithBytesFromEnd(bytes);
             FillIVWithRandomNumbers();
 
             insert_bits(state, 1, key, 80);
@@ -38,9 +41,19 @@ namespace Trivium.Models
             initialize_state(state);
         }
 
+        private void FillKeyWithBytesFromEnd(byte[] bytes)
+        {
+            var keyBytes = bytes.Select(b => (int)b);
+            var i = keyBytes.Count() - 1;
+            foreach (var keyByte in keyBytes)
+            {
+                key[i++] = keyByte;
+            }
+        }
+
         private void FillIVWithRandomNumbers()
         {
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i < bytesLength; i++)
             {
                 iv[i] = get_random_byte();
             }

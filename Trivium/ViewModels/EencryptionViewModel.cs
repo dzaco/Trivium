@@ -40,6 +40,11 @@ namespace Trivium.ViewModels
             }
         }
 
+        public byte[] Bytes
+        {
+            get { return _key.Bytes; }
+        }
+
         public string Text
         {
             get { return _text; }

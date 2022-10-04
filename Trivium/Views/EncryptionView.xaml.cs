@@ -48,6 +48,15 @@ namespace Trivium.Views
             propertyType: typeof(EncryptionViewModel),
             ownerType: typeof(EncryptionView),
             defaultMetadata: new PropertyMetadata(new EncryptionViewModel()));
+
+        private void Encrypt_Click(object sender, RoutedEventArgs e)
+        {
+            var bytesCount = ((int)EncryptionViewModel.KeyLength) / 8;
+            var encyptor = new Encryptor(EncryptionViewModel.Bytes, bytesCount);
+            var encyptedText = encyptor.Encrypt(EncryptionViewModel.Text);
+            this.EncryptedTextBlock.Text = encyptedText;
+        }
+
         private void SubscribeChanges(object? sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "KeyLength")
