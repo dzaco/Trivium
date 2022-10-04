@@ -52,7 +52,7 @@ namespace Trivium.Views
         private void Encrypt_Click(object sender, RoutedEventArgs e)
         {
             var bytesCount = ((int)EncryptionViewModel.KeyLength) / 8;
-            var encyptor = new Encryptor(EncryptionViewModel.Bytes, bytesCount);
+            var encyptor = new Encryptor2(EncryptionViewModel.Key);
             var encyptedText = encyptor.Encrypt(EncryptionViewModel.Text);
             this.EncryptedTextBlock.Text = encyptedText;
         }

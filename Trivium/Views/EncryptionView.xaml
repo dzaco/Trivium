@@ -63,6 +63,7 @@
                 <StackPanel Margin="5,0,0,0">
                     <Label Content="Text to encrypt" />
                     <TextBox x:Name="TextBox"
+                             Text="{Binding Text, Mode=TwoWay}"
                                  Style="{StaticResource StandardTextBox}"
                                  MinHeight="50" Height="Auto" MaxHeight="300"
                                  TextWrapping="Wrap" AcceptsReturn="True"

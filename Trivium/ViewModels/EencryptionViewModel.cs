@@ -9,7 +9,7 @@ namespace Trivium.ViewModels
 {
     public class EncryptionViewModel : ViewModel
     {
-        private CryptoKey _key;
+        public CryptoKey Key { get; }
         private string _text;
 
         public Dictionary<BinaryLength, string> BinaryLengthLabels { get; set; }
@@ -18,23 +18,23 @@ namespace Trivium.ViewModels
         {
             get
             {
-                return (BinaryLength)_key.Length;
+                return (BinaryLength)Key.Length;
             }
             set
             {
-                _key.Length = (int)value;
+                Key.Length = (int)value;
                 OnPropertyChanged("KeyLength");
             }
         }
 
         public string KeyVaue
         {
-            get { return _key.Value; }
+            get { return Key.Value; }
             set
             {
-                if (IsNewValue(value, _key.Value))
+                if (IsNewValue(value, Key.Value))
                 {
-                    _key.Value = value;
+                    Key.Value = value;
                     OnPropertyChanged("Key");
                 }
             }
@@ -42,7 +42,7 @@ namespace Trivium.ViewModels
 
         public byte[] Bytes
         {
-            get { return _key.Bytes; }
+            get { return Key.Bytes; }
         }
 
         public string Text
@@ -57,7 +57,7 @@ namespace Trivium.ViewModels
 
         public EncryptionViewModel()
         {
-            _key = new CryptoKey();
+            Key = new CryptoKey();
             _text = string.Empty;
             BinaryLengthLabels = new()
             {
