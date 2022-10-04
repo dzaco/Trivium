@@ -14,7 +14,7 @@ namespace Trivium.Models.Tests
         [TestMethod()]
         public void RunTest()
         {
-            var key = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            var key = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             var sut = new Encryptor(key);
             var result = sut.Encrypt("abcba");
             Console.WriteLine(result);

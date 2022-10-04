@@ -16,11 +16,11 @@ namespace Trivium.Models
         private int[] iv;
         private int[] state;
 
-        public Encryptor(int[] key)
+        public Encryptor(byte[] key)
         {
             this.random = new Random();
             this.state = new int[STATE_SIZE];
-            this.key = key;
+            this.key = key.Select(b => (int)b).ToArray();
             this.iv = new int[10];
             Init();
         }
