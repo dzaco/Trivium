@@ -2,13 +2,15 @@
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Controls;
 using System.Windows.Data;
+using Trivium.Models;
 
 namespace Trivium.Views.Helpers
 {
     public class HexConverter : IValueConverter
     {
-        private string lastValidValue;
+        private string lastValidValue = string.Empty;
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -30,7 +32,12 @@ namespace Trivium.Views.Helpers
             object ret = null;
             if (value != null && value is string)
             {
+                var combobox = parameter as ComboBox;
+                var length = (int)combobox.SelectedValue / 8;
                 var valueAsString = ((string)value).Replace(" ", String.Empty).ToUpper();
+                if ((decimal)valueAsString.Length / 2 > length)
+                    return lastValidValue;
+
                 ret = lastValidValue = IsHex(valueAsString) ? valueAsString : lastValidValue;
             }
 

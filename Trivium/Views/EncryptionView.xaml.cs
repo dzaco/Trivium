@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Trivium.Models;
 using Trivium.ViewModels;
 
 namespace Trivium.Views
@@ -26,6 +27,7 @@ namespace Trivium.Views
         {
             this.DataContext = this.EncryptionViewModel;
             InitializeComponent();
+            EncryptionViewModel.PropertyChanged += SubscribeChanges;
         }
 
         public EncryptionViewModel EncryptionViewModel
@@ -46,5 +48,18 @@ namespace Trivium.Views
             propertyType: typeof(EncryptionViewModel),
             ownerType: typeof(EncryptionView),
             defaultMetadata: new PropertyMetadata(new EncryptionViewModel()));
+        private void SubscribeChanges(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "KeyLength")
+                TruncateKeyValueToKeyLength();
+        }
+
+        private void TruncateKeyValueToKeyLength()
+        {
+            var maxCharCount = (int)EncryptionViewModel.KeyLength / 4;
+            var charCount = Math.Min(EncryptionViewModel.KeyVaue.Length, maxCharCount);
+            EncryptionViewModel.KeyVaue = EncryptionViewModel.KeyVaue.Substring(0, charCount);
+            this.KeyValueBox.Text = EncryptionViewModel.KeyVaue;
+        }
     }
 }

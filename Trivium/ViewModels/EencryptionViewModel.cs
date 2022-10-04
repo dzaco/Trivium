@@ -56,6 +56,9 @@ namespace Trivium.ViewModels
             _text = string.Empty;
             BinaryLengthLabels = new()
             {
+                { BinaryLength.bit8, "8 bits"},
+                { BinaryLength.bit16, "16 bits"},
+                { BinaryLength.bit32, "32 bits"},
                 { BinaryLength.bit64, "64 bits"},
                 { BinaryLength.bit128, "128 bits"},
             };

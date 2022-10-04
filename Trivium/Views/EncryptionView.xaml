@@ -45,7 +45,10 @@
 
                     <Label Content="Value" />
                     <TextBox Name="KeyValueBox"
-                        Text="{Binding KeyVaue, Mode=TwoWay, Converter={StaticResource HexConverter}, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding KeyVaue, Mode=TwoWay,
+                        Converter={StaticResource HexConverter},
+                        ConverterParameter={x:Reference Name=KeyLengthBox},
+                        UpdateSourceTrigger=PropertyChanged}"
                             Style="{StaticResource StandardTextBox}" />
                     <!--helpers:InputValidationHelper.OnlyNumeric="Int"-->
                 </StackPanel>

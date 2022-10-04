@@ -39,6 +39,7 @@ namespace Trivium.Models
                     throw new FormatException("Hex must has event length");
 
                 var bytes = Convert.FromHexString(value);
+                IsValid = true;
                 return bytes;
             }
             catch (Exception)
