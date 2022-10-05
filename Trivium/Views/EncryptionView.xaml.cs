@@ -23,6 +23,8 @@ namespace Trivium.Views
     /// </summary>
     public partial class EncryptionView : UserControl
     {
+        private Encryptor2 encryptor;
+
         public EncryptionView()
         {
             this.DataContext = this.EncryptionViewModel;
@@ -52,9 +54,17 @@ namespace Trivium.Views
         private void Encrypt_Click(object sender, RoutedEventArgs e)
         {
             var bytesCount = ((int)EncryptionViewModel.KeyLength) / 8;
-            var encyptor = new Encryptor2(EncryptionViewModel.Key);
-            var encyptedText = encyptor.Encrypt(EncryptionViewModel.Text);
+            encryptor = new Encryptor2(EncryptionViewModel.Key);
+            var encyptedText = encryptor.Encrypt(EncryptionViewModel.Text);
             this.EncryptedTextBlock.Text = encyptedText;
+        }
+
+        private void Attack_Click(object sender, RoutedEventArgs e)
+        {
+            var bytesCount = ((int)EncryptionViewModel.KeyLength) / 8;
+            var decyptor = new Decryptor(encryptor, this.EncryptedTextBlock.Text);
+            var decyptedText = decyptor.Decrypt();
+            this.EncryptedTextBlock.Text = decyptedText;
         }
 
         private void SubscribeChanges(object? sender, PropertyChangedEventArgs e)
