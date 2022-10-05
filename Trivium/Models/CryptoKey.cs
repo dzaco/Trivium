@@ -27,7 +27,7 @@ namespace Trivium.Models
         public CryptoKey()
         {
             Value = String.Empty;
-            Length = (int)BinaryLength.bit64;
+            Length = (int)BinaryLength.bit80;
             Bytes = new byte[0];
         }
 

@@ -12,6 +12,7 @@ namespace Trivium.Models
         bit16 = 16,
         bit32 = 32,
         bit64 = 64,
+        bit80 = 80,
         bit128 = 128,
     }
 }

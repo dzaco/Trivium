@@ -65,6 +65,7 @@ namespace Trivium.ViewModels
                 { BinaryLength.bit16, "16 bits"},
                 { BinaryLength.bit32, "32 bits"},
                 { BinaryLength.bit64, "64 bits"},
+                { BinaryLength.bit80, "80 bits"},
                 { BinaryLength.bit128, "128 bits"},
             };
         }
