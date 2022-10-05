@@ -55,6 +55,21 @@ namespace Trivium.ViewModels
             }
         }
 
+        private Encryptor2 encryptor;
+
+        public Encryptor2 Encryptor
+        {
+            get
+            {
+                if (encryptor is null)
+                    encryptor = new Encryptor2(Key);
+                return encryptor;
+            }
+            set { encryptor = value; }
+        }
+
+        public string EncryptedText { get; internal set; }
+
         public EncryptionViewModel()
         {
             Key = new CryptoKey();
