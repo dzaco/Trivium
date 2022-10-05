@@ -12,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Trivium.Models;
 using Trivium.ViewModels;
+using Trivium.Views;
 
 namespace Trivium
 {
@@ -21,12 +23,21 @@ namespace Trivium
     /// </summary>
     public partial class MainWindow : Window
     {
-        private EncryptionViewModel encryptionViewModel;
+        public EncryptionViewModel EncryptionViewModel;
+        private BruteForceViewModel bruteForceViewModel;
 
         public MainWindow()
         {
-            encryptionViewModel = new EncryptionViewModel();
+            CreateModels();
+            this.DataContext = this;
             InitializeComponent();
+            this.EncryptionView.DataContext = this.EncryptionViewModel;
+        }
+
+        private void CreateModels()
+        {
+            this.EncryptionViewModel = new EncryptionViewModel();
+            this.bruteForceViewModel = new BruteForceViewModel();
         }
     }
 }

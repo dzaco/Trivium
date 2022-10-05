@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Trivium.Views"
              xmlns:helpers="clr-namespace:Trivium.Views.Helpers"
+             xmlns:vm="clr-namespace:Trivium.ViewModels"
              mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance Type=vm:EncryptionViewModel}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>

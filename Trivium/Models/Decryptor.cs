@@ -7,20 +7,17 @@ using System.Threading.Tasks;
 
 namespace Trivium.Models
 {
-    internal class Decryptor
+    public class Decryptor
     {
         private readonly Int16 stateSize = 288;
-        private readonly string text;
         private readonly int bitLength;
         private readonly int byteLength;
         private BitArray state;
         private BitArray key;
         private BitArray iv;
 
-        public Decryptor(Encryptor2 encryptor, string text)
+        public Decryptor(Encryptor2 encryptor)
         {
-            this.text = text;
-
             this.state = new BitArray(stateSize);
             this.bitLength = encryptor.BitLength;
             this.byteLength = encryptor.ByteLength;
@@ -79,10 +76,10 @@ namespace Trivium.Models
             return result;
         }
 
-        public string Decrypt()
+        public string Decrypt(string encryptedText)
         {
             var builder = new StringBuilder();
-            foreach (var character in text)
+            foreach (var character in encryptedText)
             {
                 var encChar = character ^ GetGammaByte();
                 builder.Append((char)encChar);

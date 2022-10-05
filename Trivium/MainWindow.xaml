@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:Trivium.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
@@ -21,6 +21,8 @@
                       Width="2" />
 
         <views:EncryptionView Grid.Column="0"
-                              EncryptionViewModel="{Binding encryptionViewModel}" />
+                              x:Name="EncryptionView"
+                              DataContext="{Binding EncryptionViewModel}" />
+        <views:AtackView Grid.Column="2" />
     </Grid>
 </Window>

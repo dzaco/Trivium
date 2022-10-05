@@ -27,35 +27,23 @@ namespace Trivium.Views
 
         public EncryptionView()
         {
-            this.DataContext = this.EncryptionViewModel;
             InitializeComponent();
-            EncryptionViewModel.PropertyChanged += SubscribeChanges;
+            if (EncryptionViewModel is not null)
+                EncryptionViewModel.PropertyChanged += SubscribeChanges;
         }
 
         public EncryptionViewModel EncryptionViewModel
         {
             get
             {
-                return GetValue(EncryptionVMProperty) as EncryptionViewModel;
-            }
-            set
-            {
-                SetValue(EncryptionVMProperty, value);
+                return this.DataContext as EncryptionViewModel;
             }
         }
 
-        public static readonly DependencyProperty EncryptionVMProperty =
-        DependencyProperty.RegisterAttached(
-            name: "EncryptionViewModel",
-            propertyType: typeof(EncryptionViewModel),
-            ownerType: typeof(EncryptionView),
-            defaultMetadata: new PropertyMetadata(new EncryptionViewModel()));
-
         private void Encrypt_Click(object sender, RoutedEventArgs e)
         {
-            var bytesCount = ((int)EncryptionViewModel.KeyLength) / 8;
-            encryptor = new Encryptor2(EncryptionViewModel.Key);
-            var encyptedText = encryptor.Encrypt(EncryptionViewModel.Text);
+            var encyptedText = EncryptionViewModel.Encryptor.Encrypt(EncryptionViewModel.Text);
+            EncryptionViewModel.EncryptedText = encyptedText;
             this.EncryptedTextBlock.Text = encyptedText;
         }
 
@@ -63,9 +51,8 @@ namespace Trivium.Views
         {
             if (string.IsNullOrEmpty(EncryptionViewModel.Text) || string.IsNullOrEmpty(EncryptionViewModel.KeyVaue))
                 return;
-            var bytesCount = ((int)EncryptionViewModel.KeyLength) / 8;
-            var decyptor = new Decryptor(encryptor, this.EncryptedTextBlock.Text);
-            var decyptedText = decyptor.Decrypt();
+            var decryptor = new Decryptor(EncryptionViewModel.Encryptor);
+            var decyptedText = decryptor.Decrypt(EncryptionViewModel.EncryptedText);
             this.EncryptedTextBlock.Text = decyptedText;
         }
 
