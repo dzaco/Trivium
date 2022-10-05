@@ -61,6 +61,8 @@ namespace Trivium.Views
 
         private void Attack_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(EncryptionViewModel.Text) || string.IsNullOrEmpty(EncryptionViewModel.KeyVaue))
+                return;
             var bytesCount = ((int)EncryptionViewModel.KeyLength) / 8;
             var decyptor = new Decryptor(encryptor, this.EncryptedTextBlock.Text);
             var decyptedText = decyptor.Decrypt();

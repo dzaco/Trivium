@@ -73,8 +73,16 @@
                 </StackPanel>
             </Border>
 
-            <Button Content="Encrypt" Click="Encrypt_Click"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Encrypt" Click="Encrypt_Click"
                     Style="{StaticResource SettingButton}" />
+                <Button Grid.Column="1" Content="Attack" Click="Attack_Click"
+                    Style="{StaticResource SettingButton}" />
+            </Grid>
             <TextBlock x:Name="EncryptedTextBlock" />
         </StackPanel>
     </Grid>
