@@ -10,43 +10,34 @@ namespace Trivium.Models
     internal class Decryptor
     {
         private readonly Int16 stateSize = 288;
-        private readonly CryptoKey cryptoKey;
+        private readonly string text;
         private readonly int bitLength;
         private readonly int byteLength;
         private BitArray state;
+        private BitArray textBits;
         private BitArray key;
         private BitArray iv;
 
-        public Decryptor(CryptoKey cryptoKey)
+        public Decryptor(Encryptor2 encryptor, string text)
         {
-            this.cryptoKey = cryptoKey;
-            this.bitLength = cryptoKey.Length;
-            this.byteLength = bitLength / 8;
+            this.text = text;
+
             this.state = new BitArray(stateSize);
-            this.key = CreateBitArrayFromKey();
-            this.iv = CreateBitArrayWithKnowBits();
+            this.bitLength = encryptor.BitLength;
+            this.byteLength = encryptor.ByteLength;
+            this.textBits = CreateBitArrayFromText();
+            this.key = encryptor.Key;
+            this.iv = encryptor.IV;
             this.Init();
         }
 
-        private BitArray CreateBitArrayFromKey()
+        private BitArray CreateBitArrayFromText()
         {
-            var bytes = new byte[byteLength];
-            var i = byteLength - 1;
-            foreach (var bit in cryptoKey.Bytes.Reverse())
-            {
-                bytes[i] = bit;
-                i--;
-            }
-            return new BitArray(bytes);
-        }
+            // warning
+            // bytes array from encrypted text
+            // - length != 10
+            var bytes = Encoding.UTF8.GetBytes(text);
 
-        private BitArray CreateBitArrayWithKnowBits()
-        {
-            var bytes = new byte[byteLength];
-            for (var i = 0; i < byteLength; i++)
-            {
-                bytes[i] = ;
-            }
             return new BitArray(bytes);
         }
 
@@ -100,7 +91,7 @@ namespace Trivium.Models
             return result;
         }
 
-        public string Decrypt(string text)
+        public string Decrypt()
         {
             var builder = new StringBuilder();
             foreach (var character in text)

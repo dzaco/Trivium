@@ -12,28 +12,28 @@ namespace Trivium.Models
         private readonly Int16 stateSize = 288;
         private readonly Random random;
         private readonly CryptoKey cryptoKey;
-        private readonly int bitLength;
-        private readonly int byteLength;
+        public readonly int BitLength;
+        public readonly int ByteLength;
         private BitArray state;
-        private BitArray key;
-        private BitArray iv;
+        public BitArray Key { get; private set; }
+        public BitArray IV { get; private set; }
 
         public Encryptor2(CryptoKey cryptoKey)
         {
             this.random = new Random();
             this.cryptoKey = cryptoKey;
-            this.bitLength = cryptoKey.Length;
-            this.byteLength = bitLength / 8;
+            this.BitLength = cryptoKey.Length;
+            this.ByteLength = BitLength / 8;
             this.state = new BitArray(stateSize);
-            this.key = CreateBitArrayFromKey();
-            this.iv = CreateBitArrayWithRandomBits();
+            this.Key = CreateBitArrayFromKey();
+            this.IV = CreateBitArrayWithRandomBits();
             this.Init();
         }
 
         private BitArray CreateBitArrayFromKey()
         {
-            var bytes = new byte[byteLength];
-            var i = byteLength - 1;
+            var bytes = new byte[ByteLength];
+            var i = ByteLength - 1;
             foreach (var bit in cryptoKey.Bytes.Reverse())
             {
                 bytes[i] = bit;
@@ -44,8 +44,8 @@ namespace Trivium.Models
 
         private BitArray CreateBitArrayWithRandomBits()
         {
-            var bytes = new byte[byteLength];
-            for (var i = 0; i < byteLength; i++)
+            var bytes = new byte[ByteLength];
+            for (var i = 0; i < ByteLength; i++)
             {
                 bytes[i] = (byte)random.Next(255);
             }
@@ -54,8 +54,8 @@ namespace Trivium.Models
 
         private void Init()
         {
-            state.Insert(key, 0, bitLength);
-            state.Insert(iv, 93, bitLength);
+            state.Insert(Key, 0, BitLength);
+            state.Insert(IV, 93, BitLength);
 
             state.Set(285, true);
             state.Set(286, true);
