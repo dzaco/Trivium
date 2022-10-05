@@ -14,7 +14,6 @@ namespace Trivium.Models
         private readonly int bitLength;
         private readonly int byteLength;
         private BitArray state;
-        private BitArray textBits;
         private BitArray key;
         private BitArray iv;
 
@@ -25,20 +24,9 @@ namespace Trivium.Models
             this.state = new BitArray(stateSize);
             this.bitLength = encryptor.BitLength;
             this.byteLength = encryptor.ByteLength;
-            this.textBits = CreateBitArrayFromText();
             this.key = encryptor.Key;
             this.iv = encryptor.IV;
             this.Init();
-        }
-
-        private BitArray CreateBitArrayFromText()
-        {
-            // warning
-            // bytes array from encrypted text
-            // - length != 10
-            var bytes = Encoding.UTF8.GetBytes(text);
-
-            return new BitArray(bytes);
         }
 
         private void Init()
