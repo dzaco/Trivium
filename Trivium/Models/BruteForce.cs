@@ -27,6 +27,8 @@ namespace Trivium.Models
             {
                 var result = CreateResult();
                 yield return result;
+                if (result.IsMatch(text))
+                    break;
             }
         }
 
