@@ -28,5 +28,16 @@ namespace Trivium.Models
             }
             return new BitArray(bits);
         }
+
+        public static BitArray Reverse(this BitArray bitArray)
+        {
+            var result = new BitArray(bitArray.Length);
+            for (var i = 0; i < bitArray.Length; i++)
+            {
+                var reverseIndex = bitArray.Length - 1 - i;
+                result[reverseIndex] = bitArray[i];
+            }
+            return result;
+        }
     }
 }
