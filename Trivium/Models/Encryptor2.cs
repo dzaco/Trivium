@@ -25,21 +25,9 @@ namespace Trivium.Models
             this.BitLength = cryptoKey.Length;
             this.ByteLength = BitLength / 8;
             this.state = new BitArray(stateSize);
-            this.Key = CreateBitArrayFromKey();
+            this.Key = new BitArray(cryptoKey.Bytes);
             this.IV = CreateBitArrayWithRandomBits();
             this.Init();
-        }
-
-        private BitArray CreateBitArrayFromKey()
-        {
-            var bytes = new byte[ByteLength];
-            var i = ByteLength - 1;
-            foreach (var bit in cryptoKey.Bytes.Reverse())
-            {
-                bytes[i] = bit;
-                i--;
-            }
-            return new BitArray(bytes);
         }
 
         private BitArray CreateBitArrayWithRandomBits()
