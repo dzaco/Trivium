@@ -10,7 +10,7 @@ namespace Trivium.Models
     public class Decryptor
     {
         private readonly Int16 stateSize = 288;
-        private readonly int bitLength;
+        public readonly int BitLength;
         private readonly int byteLength;
         private BitArray state;
         private BitArray key;
@@ -19,7 +19,7 @@ namespace Trivium.Models
         public Decryptor(Encryptor2 encryptor)
         {
             this.state = new BitArray(stateSize);
-            this.bitLength = encryptor.BitLength;
+            this.BitLength = encryptor.BitLength;
             this.byteLength = encryptor.ByteLength;
             this.key = encryptor.Key;
             this.iv = encryptor.IV;
@@ -28,8 +28,8 @@ namespace Trivium.Models
 
         private void Init()
         {
-            state.Insert(key, 0, bitLength);
-            state.Insert(iv, 93, bitLength);
+            state.Insert(key, 0, BitLength);
+            state.Insert(iv, 93, BitLength);
 
             state.Set(285, true);
             state.Set(286, true);
@@ -99,6 +99,12 @@ namespace Trivium.Models
                 i++;
             }
             return buffer;
+        }
+
+        internal string Decrypt(string encyptedText, BitArray withKey)
+        {
+            this.key = withKey;
+            return Decrypt(encyptedText);
         }
     }
 }

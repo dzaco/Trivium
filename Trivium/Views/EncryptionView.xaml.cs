@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,9 +53,23 @@ namespace Trivium.Views
         {
             if (string.IsNullOrEmpty(EncryptionViewModel.Text) || string.IsNullOrEmpty(EncryptionViewModel.KeyVaue))
                 return;
-            var decryptor = new Decryptor(EncryptionViewModel.Encryptor);
-            var decyptedText = decryptor.Decrypt(EncryptionViewModel.EncryptedText);
-            this.EncryptedTextBlock.Text = decyptedText;
+
+            var dialog = new SaveFileDialog();
+            dialog.Filter = "Text|*.txt|All|*.*";
+            if (dialog.ShowDialog() == true)
+            {
+                var path = dialog.FileName;
+                var decryptor = new Decryptor(EncryptionViewModel.Encryptor);
+                var bruteForce = new BruteForce(EncryptionViewModel.Text, EncryptionViewModel.EncryptedText, decryptor);
+                using var stream = new StreamWriter(path, append: true);
+                foreach (var attachResult in bruteForce.Atack())
+                {
+                    var msg = attachResult.ToString();
+                    stream.WriteLine(msg);
+                    stream.Flush();
+                    this.EncryptedTextBlock.Text = msg;
+                }
+            }
         }
 
         private void SubscribeChanges(object? sender, PropertyChangedEventArgs e)

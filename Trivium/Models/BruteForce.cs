@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Imaging;
 
 namespace Trivium.Models
 {
@@ -13,33 +17,62 @@ namespace Trivium.Models
         private readonly string encyptedText;
         private readonly Decryptor decryptor;
         private readonly int bitLength;
+        public DateTime StartAttackTime;
+        public DateTime EndAttackTime;
 
         public BruteForce(string text, string encyptedText, Decryptor decryptor)
         {
             this.text = text;
             this.encyptedText = encyptedText;
             this.decryptor = decryptor;
+            this.bitLength = decryptor.BitLength;
+            StartAttackTime = DateTime.MinValue;
+            EndAttackTime = DateTime.MinValue;
         }
 
-        public IEnumerable<AtackResult> Atack()
+        public IEnumerable<AttackResult> Atack()
         {
+            StartAttackTime = DateTime.Now;
+            var currentTry = new BigInteger(0);
+
             foreach (var key in GetAllCombination())
             {
-                var result = CreateResult();
+                currentTry++;
+                var result = TryDecrypt(key, currentTry);
                 yield return result;
                 if (result.IsMatch(text))
                     break;
             }
+            EndAttackTime = DateTime.Now;
         }
 
-        private IEnumerable<BitArray> GetAllCombination()
+        public IEnumerable<BitArray> GetAllCombination()
         {
-            throw new NotImplementedException();
+            var max = BigInteger.Pow(2, bitLength);
+            var bigNumber = new BigInteger(0);
+            var currentKey = new BitArray(bigNumber.ToByteArray());
+            while (bigNumber <= max)
+            {
+                yield return currentKey;
+                bigNumber++;
+                currentKey = new BitArray(bigNumber.ToByteArray());
+            }
         }
 
-        private AtackResult CreateResult()
+        private AttackResult TryDecrypt(BitArray key, BigInteger currentTry)
         {
-            throw new NotImplementedException();
+            var decryptedText = this.decryptor.Decrypt(encyptedText, withKey: key);
+            return new AttackResult()
+            {
+                Id = currentTry.ToString(),
+                DecryptedText = decryptedText,
+            };
+        }
+
+        public bool IsRunning()
+        {
+            return StartAttackTime != DateTime.MinValue &&
+                EndAttackTime == DateTime.MinValue;
         }
     }
 }
