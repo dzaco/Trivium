@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,9 @@ namespace TriviumTests1.Models
         [TestMethod()]
         public void GetAllCombinationTest()
         {
-            var sut = new BruteForce(null, null, null);
-            var all = sut.GetAllCombination().ToList();
+            var bytes = new byte[] { 1 };
+            var bits = new BitArray(bytes);
+            Assert.IsTrue(bits.Get(0));
         }
     }
 }

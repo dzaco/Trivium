@@ -8,7 +8,7 @@
              xmlns:vm="clr-namespace:Trivium.ViewModels"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance Type=vm:EncryptionViewModel}"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="400" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -80,10 +80,19 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="Encrypt" Click="Encrypt_Click"
-                    Style="{StaticResource SettingButton}" />
-                <Button Grid.Column="1" Content="Attack" Click="Attack_Click"
-                    Style="{StaticResource SettingButton}" />
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Grid.Column="0"
+                        Content="Encrypt" Click="Encrypt_Click"
+                        Style="{StaticResource SettingButton}" />
+                <Button Grid.Row="0" Grid.Column="1"
+                        Content="Decrypt" Click="Decrypt_Click"
+                        Style="{StaticResource SettingButton}" />
+                <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                        Content="Attack" Click="Attack_Click"
+                        Style="{StaticResource SettingButton}" />
             </Grid>
             <TextBlock x:Name="EncryptedTextBlock" />
         </StackPanel>

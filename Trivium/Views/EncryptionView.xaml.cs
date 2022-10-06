@@ -49,6 +49,14 @@ namespace Trivium.Views
             this.EncryptedTextBlock.Text = encyptedText;
         }
 
+        private void Decrypt_Click(object sender, RoutedEventArgs e)
+        {
+            var decryptor = new Decryptor(EncryptionViewModel.Encryptor);
+            var decyptedText = decryptor.Decrypt(EncryptionViewModel.EncryptedText);
+            this.EncryptedTextBlock.Text = decyptedText;
+        }
+
+
         private void Attack_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(EncryptionViewModel.Text) || string.IsNullOrEmpty(EncryptionViewModel.KeyVaue))
