@@ -34,13 +34,13 @@ namespace Trivium.Models
         {
             StartAttackTime = DateTime.Now;
             var currentTry = new BigInteger(0);
-
+            var maxTry = 100;
             foreach (var key in GetAllCombination())
             {
                 currentTry++;
                 var result = TryDecrypt(key, currentTry);
                 yield return result;
-                if (result.IsMatch(text))
+                if (result.IsMatch(text) || currentTry > maxTry)
                     break;
             }
             EndAttackTime = DateTime.Now;
@@ -61,7 +61,7 @@ namespace Trivium.Models
 
         private AttackResult TryDecrypt(BitArray key, BigInteger currentTry)
         {
-            var decryptedText = this.decryptor.Decrypt(encyptedText, withKey: key);
+            var decryptedText = this.decryptor.Encryptor.Encrypt(encyptedText);
             return new AttackResult(currentTry.ToString(), decryptedText);
         }
 
