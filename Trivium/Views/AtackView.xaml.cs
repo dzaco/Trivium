@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Trivium.Models;
 using Trivium.ViewModels;
 
@@ -29,18 +32,25 @@ namespace Trivium.Views
             InitializeComponent();
         }
 
-        public EncryptionViewModel EncryptionViewModel
+        public BruteForceViewModel BruteForceViewModel
         {
             get
             {
-                return this.DataContext as EncryptionViewModel;
+                return this.DataContext as BruteForceViewModel;
             }
         }
 
+        public EncryptionViewModel EncryptionViewModel => BruteForceViewModel.EncryptionViewModel;
+
         private void Attack_Click(object sender, RoutedEventArgs e)
         {
-            AttackClickMock();
+            this.BruteForceViewModel.AttackLogs.CollectionChanged += Refresh;
+            foreach (var res in BruteForceViewModel.AttackClickMock().ToList())
+            {
+            }
+
             return;
+
             if (string.IsNullOrEmpty(EncryptionViewModel.Text) || string.IsNullOrEmpty(EncryptionViewModel.KeyVaue))
                 return;
 
@@ -49,33 +59,22 @@ namespace Trivium.Views
             if (dialog.ShowDialog() == true)
             {
                 var path = dialog.FileName;
-                var decryptor = new Decryptor(EncryptionViewModel.Encryptor);
-                var bruteForce = new BruteForce(EncryptionViewModel.Text, EncryptionViewModel.EncryptedText, decryptor);
                 using var stream = new StreamWriter(path, append: true);
-                foreach (var attachResult in bruteForce.Atack())
+                foreach (var attachResult in BruteForceViewModel.Atack())
                 {
-                    var msg = attachResult.ToString();
-                    stream.WriteLine(msg);
+                    stream.WriteLine(attachResult.ToString());
                     stream.Flush();
-                    this.AttackLogGrid.Items.Add(msg);
                 }
             }
         }
 
-        private void AttackClickMock()
+        private void Refresh(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            var id = 1;
-
-            while (id < 10)
+            Dispatcher.CurrentDispatcher.BeginInvoke(() =>
             {
-                var attackResult = new AttackResult()
-                {
-                    Id = id.ToString(),
-                    DecryptedText = "mock"
-                };
-                this.AttackLogGrid.Items.Add(attackResult.ToString());
-                id++;
-            }
+                this.AttackLogGrid.Items.Refresh();
+                this.AttackLogGrid.ItemsSource = this.BruteForceViewModel.AttackLogs;
+            });
         }
     }
 }

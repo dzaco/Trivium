@@ -36,13 +36,13 @@ namespace Trivium
             this.DataContext = this;
             InitializeComponent();
             this.EncryptionView.DataContext = this.EncryptionViewModel;
-            this.AttackView.DataContext = this.EncryptionViewModel;
+            this.AttackView.DataContext = this.bruteForceViewModel;
         }
 
         private void CreateModels()
         {
             this.EncryptionViewModel = new EncryptionViewModel();
-            this.bruteForceViewModel = new BruteForceViewModel();
+            this.bruteForceViewModel = new BruteForceViewModel(EncryptionViewModel);
         }
     }
 }

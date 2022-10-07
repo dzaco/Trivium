@@ -62,11 +62,7 @@ namespace Trivium.Models
         private AttackResult TryDecrypt(BitArray key, BigInteger currentTry)
         {
             var decryptedText = this.decryptor.Decrypt(encyptedText, withKey: key);
-            return new AttackResult()
-            {
-                Id = currentTry.ToString(),
-                DecryptedText = decryptedText,
-            };
+            return new AttackResult(currentTry.ToString(), decryptedText);
         }
 
         public bool IsRunning()
