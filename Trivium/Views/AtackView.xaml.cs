@@ -45,11 +45,6 @@ namespace Trivium.Views
         private void Attack_Click(object sender, RoutedEventArgs e)
         {
             this.BruteForceViewModel.AttackLogs.CollectionChanged += Refresh;
-            foreach (var res in BruteForceViewModel.AttackClickMock().ToList())
-            {
-            }
-
-            return;
 
             if (string.IsNullOrEmpty(EncryptionViewModel.Text) || string.IsNullOrEmpty(EncryptionViewModel.KeyVaue))
                 return;
