@@ -39,5 +39,21 @@ namespace Trivium.Models
             }
             return result;
         }
+
+        public static void Set(this BitArray bitArray, BitArray source)
+        {
+            if (source.Length >= bitArray.Length)
+                bitArray = new BitArray(source);
+
+            var i = 0;
+            for (; i < source.Length; i++)
+            {
+                bitArray.Set(i, source.Get(i));
+            }
+            for (; i < bitArray.Length; i++)
+            {
+                bitArray.Set(i, false);
+            }
+        }
     }
 }

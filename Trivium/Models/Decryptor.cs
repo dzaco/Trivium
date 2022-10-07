@@ -16,6 +16,8 @@ namespace Trivium.Models
         private BitArray key;
         private BitArray iv;
 
+        public Encryptor2 Encryptor { get; }
+
         public Decryptor(Encryptor2 encryptor)
         {
             this.state = new BitArray(stateSize);
@@ -24,6 +26,7 @@ namespace Trivium.Models
             this.key = encryptor.Key;
             this.iv = encryptor.IV;
             this.Init();
+            Encryptor = encryptor;
         }
 
         private void Init()

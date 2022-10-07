@@ -50,12 +50,12 @@ namespace Trivium.Models
         {
             var max = BigInteger.Pow(2, bitLength);
             var bigNumber = new BigInteger(0);
-            var currentKey = new BitArray(bigNumber.ToByteArray());
+            var currentKey = new BitArray(bitLength);
             while (bigNumber <= max)
             {
-                yield return currentKey;
                 bigNumber++;
-                currentKey = new BitArray(bigNumber.ToByteArray());
+                currentKey.Set(new BitArray(bigNumber.ToByteArray()));
+                yield return currentKey;
             }
         }
 
