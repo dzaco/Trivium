@@ -30,8 +30,14 @@ namespace Trivium.Views
         public EncryptionView()
         {
             InitializeComponent();
+            this.DataContextChanged += Init;
+        }
+
+        private void Init(object? sender, DependencyPropertyChangedEventArgs e)
+        {
             if (EncryptionViewModel is not null)
                 EncryptionViewModel.PropertyChanged += SubscribeChanges;
+            ManageButtonActivation();
         }
 
         public EncryptionViewModel EncryptionViewModel
@@ -60,6 +66,7 @@ namespace Trivium.Views
         {
             if (e.PropertyName == "KeyLength")
                 TruncateKeyValueToKeyLength();
+            ManageButtonActivation();
         }
 
         private void TruncateKeyValueToKeyLength()
@@ -68,6 +75,12 @@ namespace Trivium.Views
             var charCount = Math.Min(EncryptionViewModel.KeyVaue.Length, maxCharCount);
             EncryptionViewModel.KeyVaue = EncryptionViewModel.KeyVaue.Substring(0, charCount);
             this.KeyValueBox.Text = EncryptionViewModel.KeyVaue;
+        }
+
+        private void ManageButtonActivation()
+        {
+            this.EncryptButton.IsEnabled = EncryptionViewModel is not null && !string.IsNullOrEmpty(EncryptionViewModel.KeyVaue) && !string.IsNullOrEmpty(EncryptionViewModel.Text);
+            this.DecryptButton.IsEnabled = EncryptionViewModel is not null && !string.IsNullOrEmpty(EncryptionViewModel.EncryptedText);
         }
     }
 }

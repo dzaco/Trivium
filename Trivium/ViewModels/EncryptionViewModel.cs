@@ -68,7 +68,17 @@ namespace Trivium.ViewModels
             set { encryptor = value; }
         }
 
-        public string EncryptedText { get; internal set; }
+        private string encryptedText;
+
+        public string EncryptedText
+        {
+            get { return encryptedText; }
+            set
+            {
+                encryptedText = value;
+                OnPropertyChanged();
+            }
+        }
 
         public EncryptionViewModel()
         {
