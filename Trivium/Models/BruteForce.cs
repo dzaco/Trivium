@@ -18,7 +18,12 @@ namespace Trivium.Models
         private readonly Decryptor decryptor;
         private readonly int bitLength;
         public DateTime StartAttackTime;
+
+        public string LastId { get; private set; }
+        public string Percent { get; private set; }
+
         public DateTime EndAttackTime;
+        private BigInteger max;
 
         public BruteForce(string text, string encyptedText, Decryptor decryptor)
         {
@@ -28,27 +33,36 @@ namespace Trivium.Models
             this.bitLength = decryptor.BitLength;
             StartAttackTime = DateTime.MinValue;
             EndAttackTime = DateTime.MinValue;
+            max = BigInteger.Pow(2, bitLength);
         }
 
         public IEnumerable<AttackResult> Atack()
         {
             StartAttackTime = DateTime.Now;
             var currentTry = new BigInteger(0);
-            var maxTry = 100;
+            var maxTry = 100_000;
+            var timeout = TimeSpan.FromMinutes(1);
             foreach (var key in GetAllCombination())
             {
                 currentTry++;
                 var result = TryDecrypt(key, currentTry);
                 yield return result;
-                if (result.IsMatch(text) || currentTry > maxTry)
+                if (result.IsMatch(text) || currentTry == maxTry || IsLongerThen(timeout))
                     break;
             }
             EndAttackTime = DateTime.Now;
+            this.LastId = currentTry.ToString();
+            this.Percent = ((((decimal)currentTry) / (decimal)max) * 100).ToString() + "%";
+        }
+
+        private bool IsLongerThen(TimeSpan timeSpan)
+        {
+            var runTime = DateTime.Now - StartAttackTime;
+            return runTime > timeSpan;
         }
 
         public IEnumerable<BitArray> GetAllCombination()
         {
-            var max = BigInteger.Pow(2, bitLength);
             var bigNumber = new BigInteger(0);
             var currentKey = new BitArray(bitLength);
             while (bigNumber <= max)

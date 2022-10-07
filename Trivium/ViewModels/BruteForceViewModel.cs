@@ -32,6 +32,22 @@ namespace Trivium.ViewModels
             return bruteForce;
         }
 
+        private string _timeInfo;
+
+        public string TimeInfo
+        {
+            get { return _timeInfo; }
+            set { SetField(ref _timeInfo, value); }
+        }
+
+        private string percent;
+
+        public string Percent
+        {
+            get { return percent; }
+            set { SetField(ref percent, value); }
+        }
+
         public BruteForceViewModel()
         {
         }
@@ -60,6 +76,10 @@ namespace Trivium.ViewModels
                 AddToGrid(result);
                 yield return result;
             }
+            var time = BruteForce.EndAttackTime - BruteForce.StartAttackTime;
+            var totalTime = time.TotalMinutes.ToString("0.00");
+            TimeInfo = $"{bruteForce.LastId} keys / {totalTime} min";
+            this.Percent = bruteForce.Percent;
         }
 
         public IEnumerable<AttackResult> AttackClickMock()
