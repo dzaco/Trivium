@@ -13,6 +13,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+
         <GridSplitter Grid.Column="1"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Stretch"
@@ -20,9 +21,9 @@
                       ShowsPreview="True"
                       Width="2" />
 
-        <views:EncryptionView Grid.Column="0"
-                              x:Name="EncryptionView"
+        <views:EncryptionView x:Name="EncryptionView" Grid.Column="0"
                               DataContext="{Binding EncryptionViewModel}" />
-        <views:AtackView Grid.Column="2" />
+        <views:AtackView x:Name="AttackView" Grid.Column="2"
+                          DataContext="{Binding EncryptionViewModel}" />
     </Grid>
 </Window>

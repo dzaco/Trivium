@@ -85,13 +85,12 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Button Grid.Row="0" Grid.Column="0"
+                        x:Name="EncryptButton"
                         Content="Encrypt" Click="Encrypt_Click"
                         Style="{StaticResource SettingButton}" />
                 <Button Grid.Row="0" Grid.Column="1"
+                        x:Name="DecryptButton"
                         Content="Decrypt" Click="Decrypt_Click"
-                        Style="{StaticResource SettingButton}" />
-                <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                        Content="Attack" Click="Attack_Click"
                         Style="{StaticResource SettingButton}" />
             </Grid>
             <TextBlock x:Name="EncryptedTextBlock" />
